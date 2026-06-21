@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Security & Cracking Analyzer</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --panel-bg: rgba(17, 24, 39, 0.7);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --cyan: #06b6d4;
+      --green: #10b981;
+      --yellow: #f59e0b;
+      --red: #ef4444;
+      --glow-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.15) 0px, transparent 50%);
+    }
+
+    /* Navbar styling */
+    header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border-color);
+      backdrop-filter: blur(12px);
+      background-color: rgba(11, 15, 25, 0.5);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-icon {
+      width: 2.2rem;
+      height: 2.2rem;
+      background: linear-gradient(135deg, var(--primary), var(--cyan));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: white;
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+    }
+
+    .logo-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      background: linear-gradient(to right, #ffffff, #9ca3af);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .badge-educational {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    /* Layout structure */
+    .app-container {
+      flex: 1;
+      display: flex;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem;
+      gap: 2rem;
+    }
+
+    /* Sidebar Navigation */
+    aside {
+      width: 260px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .nav-btn.active {
+      color: white;
+      background: rgba(99, 102, 241, 0.1);
+      border-color: rgba(99, 102, 241, 0.25);
+      box-shadow: var(--glow-shadow);
+    }
+
+    .nav-icon {
+      font-size: 1.2rem;
+    }
+
+    /* Main Content Area */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    .tab-content.active {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Glassmorphism Panel */
+    .glass-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(to right, #ffffff, #d1d5db);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .card-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Password Input Widget */
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 1.25rem 1.5rem;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      color: white;
+      font-family: inherit;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.25);
+    }
+
+    /* Metric Grid & Gauges */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .metric-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 800;
+    }
+
+    .rating-badge {
+      display: inline-block;
+      padding: 0.35rem 1rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-align: center;
+      margin-top: 0.5rem;
+      max-width: fit-content;
+    }
+
+    .rating-very-weak { background: rgba(239, 68, 68, 0.15); color: var(--red); border: 1px solid rgba(239, 68, 68, 0.3); }
+    .rating-weak { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); }
+    .rating-medium { background: rgba(245, 158, 11, 0.15); color: var(--yellow); border: 1px solid rgba(245, 158, 11, 0.3); }
+    .rating-strong { background: rgba(16, 185, 129, 0.15); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .rating-very-strong { background: rgba(6, 182, 212, 0.15); color: var(--cyan); border: 1px solid rgba(6, 182, 212, 0.3); }
+
+    /* Progress bar */
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      margin-top: 1rem;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 10px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
+    }
+
+    /* Auditing cards */
+    .audit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .audit-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .audit-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.015);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .audit-status-icon {
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 900;
+    }
+
+    .status-pass {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--green);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .status-fail {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--red);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
+    /* Brute Force Estimation Cards */
+    .estimates-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .estimate-row {
+      display: grid;
+      grid-template-columns: 2fr 1.5fr 2fr;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      transition: background 0.2s ease;
+    }
+
+    .estimate-row:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .hw-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .hw-rate {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .hw-time {
+      font-weight: 700;
+      text-align: right;
+    }
+
+    /* Hash cracker simulation styling */
+    .input-group {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-crack {
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .btn-crack:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+    }
+
+    .crack-console {
+      background: #020617;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      font-family: monospace;
+      font-size: 0.9rem;
+      min-height: 250px;
+      max-height: 400px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      color: #38bdf8;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+    }
+
+    .console-success { color: #4ade80; font-weight: 700; }
+    .console-fail { color: #f87171; font-weight: 700; }
+    .console-warn { color: #fbbf24; }
+
+    /* Batch auditor items */
+    .batch-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .batch-metric {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    /* Guidelines cards */
+    .guide-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .guide-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .guide-header {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .guide-text {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <div class="logo-icon">🛡️</div>
+      <div class="logo-title">Password Security & Cracking Analyzer</div>
+    </div>
+    <div class="badge-educational">Educational Sandbox</div>
+  </header>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside>
+      <button class="nav-btn active" onclick="switchTab('audit-tab', this)">
+        <span class="nav-icon">🔑</span> Password Auditor
+      </button>
+      <button class="nav-btn" onclick="switchTab('crack-tab', this)">
+        <span class="nav-icon">⚡</span> Crack Simulator
+      </button>
+      <button class="nav-btn" onclick="switchTab('batch-tab', this)">
+        <span class="nav-icon">📊</span> Batch Analysis
+      </button>
+      <button class="nav-btn" onclick="switchTab('guide-tab', this)">
+        <span class="nav-icon">📚</span> Security Guidelines
+      </button>
+    </aside>
+
+    <!-- Main Content Panel -->
+    <main>
+      
+      <!-- Tab 1: Password Auditor -->
+      <section id="audit-tab" class="tab-content active">
+        <div class="glass-card">
+          <h2 class="card-title">Real-Time Password strength Auditing</h2>
+          <p class="card-subtitle">Input any password to evaluate Shannon entropy, policy compliance, patterns, and brute force duration estimates.</p>
+          
+          <div class="input-wrapper">
+            <input type="text" id="audit-input" class="search-input" placeholder="Type a password here..." value="Password123!">
+          </div>
+
+          <div class="metrics-grid">
+            <div class="metric-box">
+              <span class="metric-label">Entropy Score</span>
+              <span id="entropy-score" class="metric-value">0.00 bits</span>
+              <div class="progress-track">
+                <div id="entropy-progress" class="progress-bar"></div>
+              </div>
+            </div>
+
+            <div class="metric-box">
+              <span class="metric-label">Strength Classification</span>
+              <div id="strength-badge" class="rating-badge rating-very-weak">Very Weak</div>
+              <p id="strength-description" style="font-size: 0.85rem; margin-top: 0.75rem; color: var(--text-muted);"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="audit-grid">
+          <!-- Policy compliance & Wordlist check -->
+          <div class="glass-card">
+            <h3 class="card-title" style="font-size: 1.25rem;">Policy Compliance Checks</h3>
+            <p class="card-subtitle">Auditing against Corporate and NIST standards.</p>
+            <div class="audit-panel" id="policy-panel">
+              <!-- JS Injected -->
+            </div>
+          </div>
+
+          <!-- Pattern Warnings -->
+          <div class="glass-card">
+            <h3 class="card-title" style="font-size: 1.25rem;">Visual & Keyboard Pattern Audits</h3>
+            <p class="card-subtitle">Heuristics checking for sequential structures, keyboard walks, repeating blocks, and years.</p>
+            <div class="audit-panel" id="patterns-panel">
+              <!-- JS Injected -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Brute force time cards -->
+        <div class="glass-card">
+          <h3 class="card-title" style="font-size: 1.25rem;">Brute Force Hardware Crack Estimates</h3>
+          <p class="card-subtitle">Calculated duration required to mathematically try half of all combinations ($R^L$).</p>
+          <div class="estimates-container" id="brute-force-panel">
+            <!-- JS Injected -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 2: Hash Cracking Simulator -->
+      <section id="crack-tab" class="tab-content">
+        <div class="glass-card">
+          <h2 class="card-title">SHA-256 Offline Dictionary Crack Simulator</h2>
+          <p class="card-subtitle">Simulate how weak unsalted SHA-256 hashes can be cracked offline in milliseconds using common passwords and mutation rules.</p>
+          
+          <div class="input-group">
+            <input type="text" id="crack-input" class="search-input" style="flex: 1;" placeholder="Enter SHA-256 hash here..." value="ef7797e13d3d54020a5b6f52e25d2b7c4d515a8c2ef4018868846c4f03943486">
+            <button class="btn-crack" onclick="runCrackSimulation()">Simulate Crack</button>
+          </div>
+
+          <div style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <button class="btn-crack" style="background: rgba(255,255,255,0.05); box-shadow: none; padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="loadHashSample('password')">Hash for "password"</button>
+            <button class="btn-crack" style="background: rgba(255,255,255,0.05); box-shadow: none; padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="loadHashSample('admin123')">Hash for "admin123"</button>
+            <button class="btn-crack" style="background: rgba(255,255,255,0.05); box-shadow: none; padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="loadHashSample('qwerty!')">Hash for "qwerty!"</button>
+            <button class="btn-crack" style="background: rgba(255,255,255,0.05); box-shadow: none; padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="loadHashSample('secure2026')">Hash for "secure2026"</button>
+          </div>
+
+          <div class="crack-console" id="console-output">
+            [+] Console ready. Enter a SHA-256 hash and click "Simulate Crack".
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 3: Batch Analysis -->
+      <section id="batch-tab" class="tab-content">
+        <div class="glass-card">
+          <h2 class="card-title">Batch Password Audit Sandbox</h2>
+          <p class="card-subtitle">Auditing groups of passwords to capture high-level vulnerability metrics in test files.</p>
+          
+          <div class="batch-summary">
+            <div class="batch-metric">
+              <div class="metric-label">Total Passwords</div>
+              <div id="batch-total" class="metric-value" style="font-size: 1.5rem; color: var(--cyan);">0</div>
+            </div>
+            <div class="batch-metric">
+              <div class="metric-label">Strong</div>
+              <div id="batch-strong" class="metric-value" style="font-size: 1.5rem; color: var(--green);">0</div>
+            </div>
+            <div class="batch-metric">
+              <div class="metric-label">Medium</div>
+              <div id="batch-medium" class="metric-value" style="font-size: 1.5rem; color: var(--yellow);">0</div>
+            </div>
+            <div class="batch-metric">
+              <div class="metric-label">Weak / Very Weak</div>
+              <div id="batch-weak" class="metric-value" style="font-size: 1.5rem; color: var(--red);">0</div>
+            </div>
+          </div>
+
+          <button class="btn-crack" style="margin-bottom: 1.5rem;" onclick="loadBatchSample()">Load Mock Audit Dataset</button>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Plaintext Password</th>
+                  <th>Entropy (bits)</th>
+                  <th>Strength Rating</th>
+                  <th>Dictionary Check</th>
+                  <th>Patterns Detected</th>
+                  <th>Policy Compliance</th>
+                </tr>
+              </thead>
+              <tbody id="batch-table-body">
+                <tr>
+                  <td colspan="6" style="text-align: center; color: var(--text-muted);">No dataset loaded. Click button above to load mock data.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 4: Guidelines -->
+      <section id="guide-tab" class="tab-content">
+        <div class="glass-card">
+          <h2 class="card-title">Password Security & Authentication Guidelines</h2>
+          <p class="card-subtitle">Crucial guidelines derived from modern NIST and corporate security analysis standards.</p>
+          
+          <div class="guide-grid">
+            <div class="guide-card">
+              <div class="guide-header">🔑 Length is Paramount</div>
+              <p class="guide-text">
+                Every extra character multiplies password permutations exponentially. NIST SP 800-63B recommends minimum 8 characters, but strongly encourages 12-64 characters. A long, simple phrase is often stronger than a short, complex password.
+              </p>
+            </div>
+
+            <div class="guide-card">
+              <div class="guide-header">🚫 Avoid Keyboard Walks & Common Words</div>
+              <p class="guide-text">
+                Avoid sequences like "123", "abc", or keyboard layouts like "qwerty" and "asdfgh". Offline crackers explicitly target these visual clusters first to bypass standard checks.
+              </p>
+            </div>
+
+            <div class="guide-card">
+              <div class="guide-header">🗂️ Use Unique Passwords & Managers</div>
+              <p class="guide-text">
+                Reusing credentials means a single compromise breaches all other linked accounts. Using password managers enables high-entropy unique strings. Combined with Multi-Factor Authentication (MFA), it protects data even if a password leaks.
+              </p>
+            </div>
+
+            <div class="guide-card">
+              <div class="guide-header">🔒 Crypto Hashing & Salts</div>
+              <p class="guide-text">
+                In servers, avoid raw hashing using fast algorithms like MD5 or SHA-256. Use slow, memory-hard key derivation functions like <strong>bcrypt</strong>, <strong>Argon2id</strong>, or <strong>PBKDF2</strong> with randomized cryptographic salts.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Core JavaScript Logic (inline ESM-equivalent browser scripts) -->
+  <script>
+    // Quick SHA-256 browser implementation for generating sample hashes locally
+    async function sha256(message) {
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // -------------------------------------------------------------
+    // Page Interactions / tab navigation
+    // -------------------------------------------------------------
+    function switchTab(tabId, btn) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      // Deactivate all buttons
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+      // Show active tab
+      document.getElementById(tabId).classList.add('active');
+      // Highlight active button
+      btn.classList.add('active');
+    }
+
+    // -------------------------------------------------------------
+    // Audit Panel bindings (with Debounce to save server load)
+    // -------------------------------------------------------------
+    const auditInput = document.getElementById('audit-input');
+    let auditDebounceTimeout = null;
+
+    function runAudit() {
+      const pwd = auditInput.value;
+      if (!pwd) {
+        updateAuditUI({
+          entropy: 0,
+          strength: { level: "Very Weak", color: "red", description: "Please input a password." },
+          policy: { corp_policy: { passed: false }, nist_policy: { passed: false }, failures: [] },
+          patterns: { has_patterns: false, keyboard_walks: [], sequences: [], repeats: [], years: [] },
+          dictionary: { vulnerable: false, reason: "" },
+          brute_force: { estimates: {} }
+        });
+        return;
+      }
+
+      clearTimeout(auditDebounceTimeout);
+      auditDebounceTimeout = setTimeout(() => {
+        fetch('/api/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pwd })
+        })
+        .then(res => res.json())
+        .then(data => {
+          updateAuditUI(data);
+        })
+        .catch(err => console.error("Error running audit:", err));
+      }, 250);
+    }
+
+    function updateAuditUI(data) {
+      const entropy = data.entropy || 0;
+      const rating = data.strength || { level: "Very Weak", color: "red", description: "" };
+      const policyResult = data.policy || { corp_policy: { passed: false }, nist_policy: { passed: false }, failures: [] };
+      const patternResult = data.patterns || { has_patterns: false, keyboard_walks: [], sequences: [], repeats: [], years: [] };
+      const wordlistResult = data.dictionary || { vulnerable: false, reason: "" };
+      const bruteEstimates = data.brute_force || { estimates: {} };
+
+      // Score text
+      document.getElementById('entropy-score').innerText = `${entropy.toFixed(2)} bits`;
+      
+      // Badge update
+      const badge = document.getElementById('strength-badge');
+      
+      // Map backend colors to CSS rating classes
+      let colorClass = 'very-weak';
+      if (rating.color === 'lightred') colorClass = 'weak';
+      else if (rating.color === 'yellow') colorClass = 'medium';
+      else if (rating.color === 'green') colorClass = 'strong';
+      else if (rating.color === 'cyan') colorClass = 'very-strong';
+
+      badge.className = `rating-badge rating-${colorClass}`;
+      badge.innerText = rating.level;
+      
+      document.getElementById('strength-description').innerText = rating.description || rating.desc || "";
+
+      // Progress bar
+      const bar = document.getElementById('entropy-progress');
+      const percentage = Math.min((entropy / 80) * 100, 100);
+      bar.style.width = `${percentage}%`;
+      
+      let barColor = 'var(--red)';
+      if (colorClass === 'weak') barColor = '#f87171';
+      else if (colorClass === 'medium') barColor = 'var(--yellow)';
+      else if (colorClass === 'strong') barColor = 'var(--green)';
+      else if (colorClass === 'very-strong') barColor = 'var(--cyan)';
+      bar.style.backgroundColor = barColor;
+
+      // Render Policy Checklist
+      const policyPanel = document.getElementById('policy-panel');
+      const corpPassed = policyResult.corp_policy ? policyResult.corp_policy.passed : false;
+      const nistPassed = policyResult.nist_policy ? policyResult.nist_policy.passed : false;
+      
+      let policyHTML = `
+        <div class="audit-item">
+          <div class="audit-status-icon ${corpPassed ? 'status-pass' : 'status-fail'}">${corpPassed ? '✓' : '✗'}</div>
+          <div>
+            <div style="font-weight:600;">Enterprise Corporate Rule</div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">Requires Length >= 8, uppercase, lowercase, numbers, and symbols</div>
+          </div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-status-icon ${nistPassed ? 'status-pass' : 'status-fail'}">${nistPassed ? '✓' : '✗'}</div>
+          <div>
+            <div style="font-weight:600;">NIST SP 800-63B Minimum standard</div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">Requires base password length >= 8 characters (Recommended 12+)</div>
+          </div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-status-icon ${!wordlistResult.vulnerable ? 'status-pass' : 'status-fail'}">${!wordlistResult.vulnerable ? '✓' : '✗'}</div>
+          <div>
+            <div style="font-weight:600;">Common Wordlist Dictionary Check</div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">${wordlistResult.vulnerable ? 'Failed: ' + wordlistResult.reason : 'Passed: No matching dictionary roots or mutations found.'}</div>
+          </div>
+        </div>
+      `;
+      policyPanel.innerHTML = policyHTML;
+
+      // Render Patterns warning
+      const patternsPanel = document.getElementById('patterns-panel');
+      let patternsHTML = '';
+      if (!patternResult.has_patterns) {
+        patternsHTML = `
+          <div class="audit-item">
+            <div class="audit-status-icon status-pass">✓</div>
+            <div>
+              <div style="font-weight:600;">Pattern Check Passed</div>
+              <div style="font-size:0.8rem; color:var(--text-muted);">No obvious visual sequences or keyboard walks found.</div>
+            </div>
+          </div>
+        `;
+      } else {
+        if (patternResult.keyboard_walks.length > 0) {
+          patternsHTML += `
+            <div class="audit-item">
+              <div class="audit-status-icon status-fail">⚠</div>
+              <div>
+                <div style="font-weight:600; color:var(--yellow)">Keyboard walks detected</div>
+                <div style="font-size:0.8rem; color:var(--text-muted);">Avoid characters adjacent on keyboard: <strong>[${patternResult.keyboard_walks.join(", ")}]</strong></div>
+              </div>
+            </div>
+          `;
+        }
+        if (patternResult.sequences.length > 0) {
+          patternsHTML += `
+            <div class="audit-item">
+              <div class="audit-status-icon status-fail">⚠</div>
+              <div>
+                <div style="font-weight:600; color:var(--yellow)">Sequential letters/numbers</div>
+                <div style="font-size:0.8rem; color:var(--text-muted);">Avoid predictable runs: <strong>[${patternResult.sequences.join(", ")}]</strong></div>
+              </div>
+            </div>
+          `;
+        }
+        if (patternResult.repeats.length > 0) {
+          patternsHTML += `
+            <div class="audit-item">
+              <div class="audit-status-icon status-fail">⚠</div>
+              <div>
+                <div style="font-weight:600; color:var(--yellow)">Repeated character structures</div>
+                <div style="font-size:0.8rem; color:var(--text-muted);">Avoid simple repetition loops: <strong>[${patternResult.repeats.join(", ")}]</strong></div>
+              </div>
+            </div>
+          `;
+        }
+        if (patternResult.years.length > 0) {
+          patternsHTML += `
+            <div class="audit-item">
+              <div class="audit-status-icon status-fail">⚠</div>
+              <div>
+                <div style="font-weight:600; color:var(--yellow)">Predictable year tags</div>
+                <div style="font-size:0.8rem; color:var(--text-muted);">Do not append current or recent year strings: <strong>[${patternResult.years.join(", ")}]</strong></div>
+              </div>
+            </div>
+          `;
+        }
+      }
+      patternsPanel.innerHTML = patternsHTML;
+
+      // Render Brute force Estimates
+      const brutePanel = document.getElementById('brute-force-panel');
+      let bruteHTML = '';
+      if (!bruteEstimates.estimates || Object.keys(bruteEstimates.estimates).length === 0) {
+        bruteHTML = `<div style="text-align:center; padding:1rem; color:var(--text-muted)">Input password to generate estimates.</div>`;
+      } else {
+        for (const [hwName, est] of Object.entries(bruteEstimates.estimates)) {
+          const timeColor = (est.readable_time.includes('Years') || est.readable_time.includes('Centuries') || est.readable_time.includes('Days') || est.readable_time.includes('Hours')) ? 'var(--green)' : 'var(--red)';
+          bruteHTML += `
+            <div class="estimate-row">
+              <span class="hw-title">${hwName}</span>
+              <span class="hw-rate">${est.rate_desc}</span>
+              <span class="hw-time" style="color: ${timeColor}">${est.readable_time}</span>
+            </div>
+          `;
+        }
+      }
+      brutePanel.innerHTML = bruteHTML;
+    }
+
+    auditInput.addEventListener('input', runAudit);
+    // Trigger initial audit
+    runAudit();
+
+    // -------------------------------------------------------------
+    // Cracker Simulation bindings (SSE Streaming)
+    // -------------------------------------------------------------
+    const consoleOutput = document.getElementById('console-output');
+    const crackInput = document.getElementById('crack-input');
+    let eventSource = null;
+
+    function logToConsole(text, type = "") {
+      const span = document.createElement('span');
+      span.innerText = text;
+      if (type === "success") span.className = "console-success";
+      if (type === "fail") span.className = "console-fail";
+      if (type === "warn") span.className = "console-warn";
+      consoleOutput.appendChild(span);
+      consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    }
+
+    async function loadHashSample(plaintext) {
+      consoleOutput.innerHTML = '';
+      logToConsole(`[*] Generating SHA-256 hash for sample: "${plaintext}"`);
+      const h = await sha256(plaintext);
+      crackInput.value = h;
+      logToConsole(`[+] Hash generated: ${h}`);
+      logToConsole(`[+] Ready to simulate offline decryption. Click "Simulate Crack" to begin.`);
+    }
+
+    async function runCrackSimulation() {
+      consoleOutput.innerHTML = '';
+      const h = crackInput.value.trim();
+      if (!h) {
+        logToConsole("[-] Error: Target hash field is empty.", "fail");
+        return;
+      }
+
+      if (eventSource) {
+        eventSource.close();
+      }
+
+      logToConsole(`[#] Initiating backend offline cracking simulation...`);
+
+      // Open SSE connection to server
+      eventSource = new EventSource(`/api/crack?hash=${encodeURIComponent(h)}`);
+
+      eventSource.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          
+          if (data.type === 'log') {
+            logToConsole(data.message);
+          } else if (data.type === 'error') {
+            logToConsole(`[-] Error: ${data.message}`, "fail");
+            eventSource.close();
+          } else if (data.type === 'result') {
+            if (data.success) {
+              logToConsole(`[+] SUCCESS! Target hash decrypted.`, "success");
+              logToConsole(`[+] Plaintext Match: "${data.plaintext}"`, "success");
+              logToConsole(`[+] Method Used    : ${data.method}`, "success");
+              logToConsole(`[+] Time Taken     : ${data.elapsed_seconds.toFixed(6)} Seconds`, "success");
+              logToConsole(`[+] Hashes Tried   : ${data.checked_count}`, "success");
+            } else {
+              logToConsole(`[-] CRACK FAILED.`, "fail");
+              logToConsole(`[-] Tested ${data.checked_count} permutations in ${data.elapsed_seconds.toFixed(6)} seconds.`, "fail");
+              logToConsole(`[-] Reason: Hash is not based on top common password vectors or simple mutations.`, "warn");
+            }
+            eventSource.close();
+          }
+        } catch (err) {
+          console.error("Failed to parse SSE payload:", err);
+        }
+      };
+
+      eventSource.onerror = (err) => {
+        logToConsole("[-] Connection error. Make sure backend is running.", "fail");
+        eventSource.close();
+      };
+    }
+
+    // -------------------------------------------------------------
+    // Batch auditing bindings
+    // -------------------------------------------------------------
+    const mockPasswords = [
+      "123456",
+      "password123!",
+      "admin@123",
+      "qwerty",
+      "SuperSecurityPass2026$",
+      "P@ssw0rd1",
+      "charlie",
+      "x9$vLp7!Wz2"
+    ];
+
+    function loadBatchSample() {
+      const tbody = document.getElementById('batch-table-body');
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Running batch audit on server...</td></tr>';
+
+      fetch('/api/batch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passwords: mockPasswords })
+      })
+      .then(res => res.json())
+      .then(data => {
+        tbody.innerHTML = '';
+        
+        document.getElementById('batch-total').innerText = data.summary.total;
+        document.getElementById('batch-strong').innerText = data.summary.strong;
+        document.getElementById('batch-medium').innerText = data.summary.medium;
+        document.getElementById('batch-weak').innerText = data.summary.weak;
+
+        data.results.forEach(res => {
+          const pwd = res.password;
+          const entropy = res.entropy;
+          const rating = res.strength;
+          const policyResult = res.policy;
+          const patternResult = res.patterns;
+          const wordlistResult = res.dictionary;
+
+          let colorClass = 'very-weak';
+          if (rating.color === 'lightred') colorClass = 'weak';
+          else if (rating.color === 'yellow') colorClass = 'medium';
+          else if (rating.color === 'green') colorClass = 'strong';
+          else if (rating.color === 'cyan') colorClass = 'very-strong';
+
+          // Format patterns summary
+          const patternsDetected = [];
+          if (patternResult.keyboard_walks.length > 0) patternsDetected.push("Walks");
+          if (patternResult.sequences.length > 0) patternsDetected.push("Seq");
+          if (patternResult.repeats.length > 0) patternsDetected.push("Repeats");
+          if (patternResult.years.length > 0) patternsDetected.push("Years");
+
+          const patternText = patternsDetected.length > 0 ? `⚠️ ${patternsDetected.join(", ")}` : "✅ None";
+          const dictText = wordlistResult.vulnerable ? `❌ Common/Mutated` : "✅ Safe";
+          const policyText = policyResult.corp_policy.passed ? "✅ Compliant" : `❌ Non-Compliant`;
+
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td style="font-family: monospace; font-weight: 600;">${pwd}</td>
+            <td>${entropy.toFixed(1)}</td>
+            <td><span class="rating-badge rating-${colorClass}" style="font-size: 0.75rem; padding: 0.15rem 0.5rem; margin: 0;">${rating.level}</span></td>
+            <td>${dictText}</td>
+            <td style="font-size: 0.8rem;">${patternText}</td>
+            <td style="font-size: 0.8rem;">${policyText}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      })
+      .catch(err => {
+        console.error("Batch query failed:", err);
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--red);">Error retrieving batch results.</td></tr>';
+      });
+    }
+  </script>
+</body>
+</html>

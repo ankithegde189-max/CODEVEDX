@@ -1,0 +1,23 @@
+{
+  "name": "password-security-cracking-analysis",
+  "version": "1.0.0",
+  "description": "Password Security & Cracking Analysis tool in Node.js",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "start": "node server.js",
+    "cli": "node main.js",
+    "test": "node --test tests/test_analyzer.js tests/test_server.js"
+  },
+  "keywords": [
+    "password",
+    "security",
+    "entropy",
+    "cracking"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
