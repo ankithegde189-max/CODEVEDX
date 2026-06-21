@@ -1,0 +1,259 @@
+{
+  "departments": [
+    "Engineering",
+    "Human Resources",
+    "Finance & Accounts",
+    "Sales & Marketing",
+    "Legal & Compliance"
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Alice Johnson",
+      "email": "alice.j@corp-company.com",
+      "department": "Engineering"
+    },
+    {
+      "id": 2,
+      "name": "Bob Smith",
+      "email": "bob.s@corp-company.com",
+      "department": "Human Resources"
+    },
+    {
+      "id": 3,
+      "name": "Charlie Brown",
+      "email": "charlie.b@corp-company.com",
+      "department": "Finance & Accounts"
+    },
+    {
+      "id": 4,
+      "name": "David Miller",
+      "email": "david.m@corp-company.com",
+      "department": "Sales & Marketing"
+    },
+    {
+      "id": 5,
+      "name": "Eva Davis",
+      "email": "eva.d@corp-company.com",
+      "department": "Legal & Compliance"
+    },
+    {
+      "id": 6,
+      "name": "Frank Wilson",
+      "email": "frank.w@corp-company.com",
+      "department": "Engineering"
+    },
+    {
+      "id": 7,
+      "name": "Grace Lee",
+      "email": "grace.l@corp-company.com",
+      "department": "Human Resources"
+    }
+  ],
+  "campaigns": [
+    {
+      "id": "campaign_2026_q1",
+      "name": "Q1 2026 Security Awareness",
+      "status": "completed",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-20",
+      "emailsSent": 35
+    },
+    {
+      "id": "campaign_2026_q2",
+      "name": "Q2 2026 Urgent HR Update Simulation",
+      "status": "active",
+      "startDate": "2026-06-15",
+      "endDate": "2026-06-30",
+      "emailsSent": 42
+    }
+  ],
+  "logs": [
+    {
+      "id": "log_001",
+      "campaignId": "campaign_2026_q1",
+      "userEmail": "alice.j@corp-company.com",
+      "userName": "Alice Johnson",
+      "department": "Engineering",
+      "templateId": "it_pass_reset",
+      "action": "reported",
+      "timestamp": "2026-02-11T09:12:00Z"
+    },
+    {
+      "id": "log_002",
+      "campaignId": "campaign_2026_q1",
+      "userEmail": "bob.s@corp-company.com",
+      "userName": "Bob Smith",
+      "department": "Human Resources",
+      "templateId": "it_pass_reset",
+      "action": "clicked",
+      "timestamp": "2026-02-11T10:14:00Z"
+    },
+    {
+      "id": "log_003",
+      "campaignId": "campaign_2026_q1",
+      "userEmail": "bob.s@corp-company.com",
+      "userName": "Bob Smith",
+      "department": "Human Resources",
+      "templateId": "it_pass_reset",
+      "action": "compromised",
+      "timestamp": "2026-02-11T10:15:00Z"
+    },
+    {
+      "id": "log_004",
+      "campaignId": "campaign_2026_q1",
+      "userEmail": "charlie.b@corp-company.com",
+      "userName": "Charlie Brown",
+      "department": "Finance & Accounts",
+      "templateId": "it_pass_reset",
+      "action": "clicked",
+      "timestamp": "2026-02-12T11:05:00Z"
+    },
+    {
+      "id": "log_005",
+      "campaignId": "campaign_2026_q1",
+      "userEmail": "charlie.b@corp-company.com",
+      "userName": "Charlie Brown",
+      "department": "Finance & Accounts",
+      "templateId": "it_pass_reset",
+      "action": "compromised",
+      "timestamp": "2026-02-12T11:06:00Z"
+    },
+    {
+      "id": "log_006",
+      "campaignId": "campaign_2026_q1",
+      "userEmail": "david.m@corp-company.com",
+      "userName": "David Miller",
+      "department": "Sales & Marketing",
+      "templateId": "it_pass_reset",
+      "action": "ignored",
+      "timestamp": "2026-02-12T14:22:00Z"
+    },
+    {
+      "id": "log_007",
+      "campaignId": "campaign_2026_q1",
+      "userEmail": "eva.d@corp-company.com",
+      "userName": "Eva Davis",
+      "department": "Legal & Compliance",
+      "templateId": "it_pass_reset",
+      "action": "reported",
+      "timestamp": "2026-02-13T09:45:00Z"
+    },
+    {
+      "id": "log_008",
+      "campaignId": "campaign_2026_q1",
+      "userEmail": "frank.w@corp-company.com",
+      "userName": "Frank Wilson",
+      "department": "Engineering",
+      "templateId": "it_pass_reset",
+      "action": "reported",
+      "timestamp": "2026-02-13T10:00:00Z"
+    },
+    {
+      "id": "log_009",
+      "campaignId": "campaign_2026_q1",
+      "userEmail": "grace.l@corp-company.com",
+      "userName": "Grace Lee",
+      "department": "Human Resources",
+      "templateId": "it_pass_reset",
+      "action": "clicked",
+      "timestamp": "2026-02-14T16:30:00Z"
+    },
+    {
+      "id": "log_010",
+      "campaignId": "campaign_2026_q2",
+      "userEmail": "alice.j@corp-company.com",
+      "userName": "Alice Johnson",
+      "department": "Engineering",
+      "templateId": "hr_benefits",
+      "action": "reported",
+      "timestamp": "2026-06-16T08:05:00Z"
+    },
+    {
+      "id": "log_011",
+      "campaignId": "campaign_2026_q2",
+      "userEmail": "bob.s@corp-company.com",
+      "userName": "Bob Smith",
+      "department": "Human Resources",
+      "templateId": "hr_benefits",
+      "action": "clicked",
+      "timestamp": "2026-06-16T11:15:00Z"
+    },
+    {
+      "id": "log_012",
+      "campaignId": "campaign_2026_q2",
+      "userEmail": "charlie.b@corp-company.com",
+      "userName": "Charlie Brown",
+      "department": "Finance & Accounts",
+      "templateId": "hr_benefits",
+      "action": "clicked",
+      "timestamp": "2026-06-17T09:30:00Z"
+    },
+    {
+      "id": "log_013",
+      "campaignId": "campaign_2026_q2",
+      "userEmail": "david.m@corp-company.com",
+      "userName": "David Miller",
+      "department": "Sales & Marketing",
+      "templateId": "hr_benefits",
+      "action": "clicked",
+      "timestamp": "2026-06-17T15:40:00Z"
+    },
+    {
+      "id": "log_014",
+      "campaignId": "campaign_2026_q2",
+      "userEmail": "david.m@corp-company.com",
+      "userName": "David Miller",
+      "department": "Sales & Marketing",
+      "templateId": "hr_benefits",
+      "action": "compromised",
+      "timestamp": "2026-06-17T15:42:00Z"
+    },
+    {
+      "id": "log_015",
+      "campaignId": "campaign_2026_q2",
+      "userEmail": "eva.d@corp-company.com",
+      "userName": "Eva Davis",
+      "department": "Legal & Compliance",
+      "templateId": "hr_benefits",
+      "action": "reported",
+      "timestamp": "2026-06-18T10:12:00Z"
+    },
+    {
+      "id": "log_1782031270428_299",
+      "campaignId": "campaign_2026_q2",
+      "userEmail": "alice.j@corp-company.com",
+      "userName": "Alice Johnson",
+      "department": "Engineering",
+      "templateId": "google_alert",
+      "action": "clicked",
+      "timestamp": "2026-06-21T08:41:10.429Z"
+    }
+  ],
+  "quizResults": [
+    {
+      "userName": "Alice Johnson",
+      "score": 90,
+      "total": 100,
+      "timestamp": "2026-06-18T11:00:00Z"
+    },
+    {
+      "userName": "Eva Davis",
+      "score": 100,
+      "total": 100,
+      "timestamp": "2026-06-19T09:30:00Z"
+    },
+    {
+      "userName": "Frank Wilson",
+      "score": 80,
+      "total": 100,
+      "timestamp": "2026-06-20T14:15:00Z"
+    },
+    {
+      "userName": "Bob Smith",
+      "score": 100,
+      "total": 100,
+      "timestamp": "2026-06-21T08:41:10.437Z"
+    }
+  ]
+}
