@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AegisScan | Vulnerability Assessment & Reporting Suite</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <aside>
+    <div class="logo-container">
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" width="24" height="24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+        </svg>
+      </div>
+      <span class="logo-text">AEGIS_SCAN</span>
+    </div>
+
+    <ul class="nav-menu">
+      <li>
+        <a class="nav-item active" data-tab="dashboard">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" />
+          </svg>
+          Dashboard & Console
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" data-tab="vulnerabilities">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          Findings Database
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" data-tab="reporting">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Audit Reports
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" data-tab="methodology">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          Methodology Guide
+        </a>
+      </li>
+    </ul>
+
+    <div class="nav-footer">
+      <div>AegisScan Framework v1.0.4</div>
+      <div>Safe Simulation Environment</div>
+    </div>
+  </aside>
+
+  <!-- Main Workspace -->
+  <main>
+
+    <!-- SECTION 1: DASHBOARD & CONSOLE -->
+    <section id="dashboard" class="tab-content active">
+      <div class="header-row">
+        <div>
+          <h1>Simulation Console</h1>
+          <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.25rem;">Configure scans, run simulations, and analyze system vulnerabilities.</p>
+        </div>
+      </div>
+
+      <div class="grid-cols-2">
+        <!-- Configuration Card -->
+        <div class="glass-card">
+          <h2 style="font-size: 1.25rem; margin-bottom: 1.25rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.75rem;">Scan Configuration</h2>
+          
+          <div class="form-group">
+            <label for="target-ip">Target IP or Range</label>
+            <input type="text" id="target-ip" class="form-control" placeholder="e.g. 192.168.1.0/24 or staging.internal" value="10.0.15.0/24">
+          </div>
+
+          <div class="form-group">
+            <label for="scan-profile">Scan Profile</label>
+            <select id="scan-profile" class="form-control">
+              <option value="full">Full Network Infrastructure Audit (Fast)</option>
+              <option value="web">OWASP Web Application Vulnerability Assessment</option>
+              <option value="port">Intrusive Port & OS Detection Sweep</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="scan-depth">Scan Intensity</label>
+            <select id="scan-depth" class="form-control">
+              <option value="normal">Standard Passive & Active Scanning (Recommended)</option>
+              <option value="stealth">Stealth Discovery Scan (Slower)</option>
+              <option value="intrusive">Aggressive Audit / Safe Exploitation Checks</option>
+            </select>
+          </div>
+
+          <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button id="btn-start-scan" class="btn btn-primary" style="flex-grow: 1;">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Execute Scan
+            </button>
+            <button id="btn-reset" class="btn btn-secondary" disabled>Reset</button>
+          </div>
+        </div>
+
+        <!-- Terminal Window Card -->
+        <div class="glass-card" style="display: flex; flex-direction: column;">
+          <h2 style="font-size: 1.25rem; margin-bottom: 1.25rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.75rem;">Terminal Logs</h2>
+          <div class="terminal-window" style="flex-grow: 1; display: flex; flex-direction: column;">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <div class="terminal-dot red"></div>
+                <div class="terminal-dot yellow"></div>
+                <div class="terminal-dot green"></div>
+              </div>
+              <span class="terminal-title">Assessment Console</span>
+            </div>
+            <div class="terminal-body" id="scan-terminal">
+              <div class="terminal-line info">Ready to initialize scan simulation. Provide target IP and select profile to start.</div>
+            </div>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="scan-progress"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Dashboard -->
+      <h2 style="font-size: 1.25rem; margin-bottom: 1.25rem;">Live Analytics Summary</h2>
+      <div class="grid-cols-4">
+        <div class="glass-card stat-card" style="border-left: 4px solid var(--severity-critical);">
+          <div class="stat-info">
+            <h3>Critical Risks</h3>
+            <div class="stat-val" id="count-critical" style="color: var(--severity-critical);">0</div>
+          </div>
+          <div class="stat-icon-wrapper" style="background: rgba(239, 68, 68, 0.15);">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" stroke-width="2" stroke="var(--severity-critical)">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="glass-card stat-card" style="border-left: 4px solid var(--severity-high);">
+          <div class="stat-info">
+            <h3>High Risks</h3>
+            <div class="stat-val" id="count-high" style="color: var(--severity-high);">0</div>
+          </div>
+          <div class="stat-icon-wrapper" style="background: rgba(249, 115, 22, 0.15);">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" stroke-width="2" stroke="var(--severity-high)">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="glass-card stat-card" style="border-left: 4px solid var(--severity-medium);">
+          <div class="stat-info">
+            <h3>Medium Risks</h3>
+            <div class="stat-val" id="count-medium" style="color: var(--severity-medium);">0</div>
+          </div>
+          <div class="stat-icon-wrapper" style="background: rgba(245, 158, 11, 0.15);">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" stroke-width="2" stroke="var(--severity-medium)">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="glass-card stat-card" style="border-left: 4px solid var(--accent-green);">
+          <div class="stat-info">
+            <h3>Verified Safe</h3>
+            <div class="stat-val" id="count-verified" style="color: var(--accent-green);">0</div>
+          </div>
+          <div class="stat-icon-wrapper" style="background: rgba(16, 185, 129, 0.15);">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" stroke-width="2" stroke="var(--accent-green)">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-cols-2">
+        <!-- SVG Chart -->
+        <div class="glass-card">
+          <h2 style="font-size: 1.25rem; margin-bottom: 1rem;">Threat Landscape</h2>
+          <div class="chart-container">
+            <svg id="svg-chart" width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet">
+              <text x="200" y="100" fill="#64748b" font-size="14" text-anchor="middle">Execute scan to render analytics chart</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Target Information Info Box -->
+        <div class="glass-card">
+          <h2 style="font-size: 1.25rem; margin-bottom: 1rem;">Simulator Overview</h2>
+          <p style="color: #cbd5e1; line-height: 1.6; margin-bottom: 1rem;">
+            Welcome to the <strong>AegisScan Cyber Assessment Simulator</strong>. This workspace is designed to guide you through security audit stages safely:
+          </p>
+          <ul style="margin-left: 1.5rem; color: #cbd5e1; line-height: 1.8;">
+            <li><strong>Reconnaissance:</strong> Port mapping & active banner grabbing.</li>
+            <li><strong>Vuln Check:</strong> Fingerprinting & matching CVE repositories.</li>
+            <li><strong>Verification:</strong> Learn how to spot and eliminate false positives.</li>
+            <li><strong>Reporting:</strong> Produce structured findings with remediation advice.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: FINDINGS DATABASE -->
+    <section id="vulnerabilities" class="tab-content">
+      <div class="header-row">
+        <div>
+          <h1>Vulnerability Findings</h1>
+          <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.25rem;">Filter, inspect, and verify security weaknesses detected during network runs.</p>
+        </div>
+        <div style="display: flex; gap: 0.75rem;">
+          <input type="text" id="vuln-search" class="form-control" style="width: 250px;" placeholder="Search findings...">
+          <select id="vuln-filter-severity" class="form-control" style="width: 150px;">
+            <option value="all">All Severities</option>
+            <option value="critical">Critical</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Target & Host</th>
+                <th>Vulnerability / Exploit</th>
+                <th>Severity</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="vuln-table-body">
+              <tr>
+                <td colspan="6" style="text-align: center; color: #64748b; padding: 3rem;">No scan data active. Run a scan inside the Simulation Console to import vulnerabilities.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: AUDIT REPORTS -->
+    <section id="reporting" class="tab-content">
+      <div class="header-row">
+        <div>
+          <h1>Vulnerability Assessment Report</h1>
+          <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.25rem;">Preview and export a detailed security findings audit ready for stakeholder presentation.</p>
+        </div>
+        <button id="btn-print-report" class="btn btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+          </svg>
+          Print Report
+        </button>
+      </div>
+
+      <div class="glass-card" id="report-view-container" style="padding: 3rem; background: var(--bg-secondary); border-radius: 12px; line-height: 1.6;">
+        <div style="text-align: center; color: #64748b; padding: 4rem 0;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="48" height="48" style="margin-bottom: 1rem;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <p>Please launch and complete a vulnerability assessment scan to populate the report framework.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: METHODOLOGY GUIDE -->
+    <section id="methodology" class="tab-content">
+      <div class="header-row">
+        <div>
+          <h1>Methodology & Education Guide</h1>
+          <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.25rem;">Learn standard assessment lifecycles, configuration tricks, and manual exploit verification.</p>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <div class="guide-grid">
+          <div class="guide-sidebar">
+            <div class="guide-link active" data-guide="lifecycle">1. Assessment Lifecycle</div>
+            <div class="guide-link" data-guide="scanning-tools">2. Standard Security Tools</div>
+            <div class="guide-link" data-guide="false-positives">3. Resolving False Positives</div>
+            <div class="guide-link" data-guide="remediation">4. Risk Remediation Steps</div>
+          </div>
+          <div class="guide-content-area" id="guide-body">
+            <!-- Loaded dynamically via app.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Interactive Vulnerability Analysis & Verification Modal -->
+  <div class="modal-overlay" id="vuln-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-vuln-title">Vulnerability Details</h3>
+        <button class="modal-close" id="btn-close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 1.5rem;">
+          <span id="modal-vuln-severity" class="badge">CRITICAL</span>
+          <span id="modal-vuln-id" style="font-family: var(--font-mono); font-size: 0.85rem; color: #94a3b8;">CVE-2023-XXXX</span>
+          <span id="modal-vuln-host" style="font-family: var(--font-mono); font-size: 0.85rem; color: #94a3b8;">10.0.15.14</span>
+        </div>
+
+        <nav class="verify-nav">
+          <button class="verify-tab-btn active" data-subtab="overview">Overview & Impact</button>
+          <button class="verify-tab-btn" data-subtab="verification">Manual Verification Proof</button>
+          <button class="verify-tab-btn" data-subtab="remediation">Remediation Guide</button>
+        </nav>
+
+        <div id="subtab-overview" class="subtab-content">
+          <h4>Vulnerability Description</h4>
+          <p id="modal-vuln-desc">Description text goes here.</p>
+          
+          <h4>Potential Impact</h4>
+          <p id="modal-vuln-impact">Impact description goes here.</p>
+          
+          <h4>Threat Vectors</h4>
+          <p id="modal-vuln-vectors">Threat vectors description goes here.</p>
+        </div>
+
+        <div id="subtab-verification" class="subtab-content" style="display: none;">
+          <p style="margin-bottom: 1rem;">
+            Automated tools often flag false positives. To verify this finding accurately, security analysts perform manual checks (e.g., banner grabbing, safe exploit checks, config audits). Follow the simulation steps below to inspect the target response and confirm this finding:
+          </p>
+
+          <div class="interactive-verify-box">
+            <h4 style="color: #ffffff; margin-top: 0; margin-bottom: 0.5rem;" id="interactive-verification-title">Verify Vulnerability Status</h4>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 1rem;" id="interactive-verification-instruction">
+              Run manual inspection commands to analyze target configurations.
+            </p>
+            
+            <div class="modal-code-box" id="verification-console-output">
+              $ curl -i http://10.0.15.14/admin
+            </div>
+            
+            <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+              <button id="btn-run-verify-cmd" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.5rem 1rem;">Run Analysis Command</button>
+              <button id="btn-confirm-vuln" class="btn btn-primary" style="font-size: 0.8rem; padding: 0.5rem 1rem;" disabled>Confirm Finding</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="subtab-remediation" class="subtab-content" style="display: none;">
+          <h4>Actionable Fixes</h4>
+          <p id="modal-vuln-remediation">Remediation detailed instructions.</p>
+          
+          <h4>References</h4>
+          <div class="modal-code-box" id="modal-vuln-references" style="color: #a855f7;">
+            - https://nvd.nist.gov/vuln/detail/...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
